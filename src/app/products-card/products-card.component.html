@@ -1,0 +1,23 @@
+
+  <div class="card mt-2" *ngIf="product.title">
+    <img
+      class="card-img-top"
+      [src]="product.imageUrl"
+      *ngIf="product.imageUrl"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{ product.title }}</h5>
+      <p class="card-text">{{ product.price | currency : "USD" : true }}</p>
+    </div>
+    <div class="card-footer bg-white" *ngIf="showActions">
+       <ng-template #noItemInCart>
+         <div class="d-grid gap-2">
+        <button
+        (click)="addToCart()"
+        class="btn btn-secondary" 
+        >Add To Cart</button>
+      </div>
+      </ng-template>
+     <product-quantity [product]="product" [shopping-cart]="shoppingCart" *ngIf="shoppingCart.getQuantity(product) > 0; else noItemInCart"></product-quantity>
+    </div>
+  </div>

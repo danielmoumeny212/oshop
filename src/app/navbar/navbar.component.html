@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Shop</a>
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul ngbNav #nav="ngbNav" class="nav">
+        <li ngbNavItem>
+          <button ngbNavLink routerLink="/shopping-cart" class="text-secondary">
+            shopping-cart <span class="badge bg-primary" *ngIf="cart$ | async as cart ">{{ cart.totalItemsCount}}</span>
+          </button>
+        </li>
+        <ng-template #anonymousUser>
+          <li ngbNavItem>
+            <button ngbNavLink routerLink="/login" class="text-secondary">
+              Login
+            </button>
+          </li>
+        </ng-template>
+
+        <li
+          ngbDropdown
+          class="d-inline-block"
+          ngbNavItem
+          *ngIf="appUser as user; else anonymousUser"
+        >
+          <button
+            type="button"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+            ngbNavLink
+          >
+            {{ user.name }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem routerLink="/my/orders">My Orders</button>
+            <ng-container *ngIf="user.isAdmin">
+              <button ngbDropdownItem routerLink="/admin/orders">
+                Manager Order
+              </button>
+              <button ngbDropdownItem routerLink="/admin/products">
+                Manager Products
+              </button>
+            </ng-container>
+            <button ngbDropdownItem (click)="logout()">Log Out</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
